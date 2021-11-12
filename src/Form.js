@@ -25,8 +25,8 @@ export default function Form(props){
         <>
         <img src={pizzaImg} alt="picture of a pizza"/>
         <form id="pizza-form" className='form-container' onSubmit={onSubmit}>
-            <h2>Make A Pizza</h2>
-            <h4>Order Information</h4>
+            <h2>Create Your Own Pizza!!!</h2>
+            <h4>Order Information:</h4>
             <div className='forminputs'>    
 
 
@@ -109,7 +109,7 @@ export default function Form(props){
                 </label>
                     <div className='errors'>{errors.special}</div>
             </div> 
-                <h4>Click to Order </h4>
+                <h4>Click to Order: </h4>
                 <button id='order-button' disabled={disabled}>Add to Order</button>
         </form>
         </>

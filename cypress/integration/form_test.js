@@ -1,7 +1,7 @@
 // write tests here 
 describe('Pizza App', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:3001/pizza')
+        cy.visit('http://localhost:3000/pizza')
     })
 
     const nameInput = () => cy.get('input[name=name]')
