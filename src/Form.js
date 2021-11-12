@@ -26,7 +26,6 @@ export default function Form(props){
         <img src={pizzaImg} alt="picture of a pizza"/>
         <form id="pizza-form" className='form-container' onSubmit={onSubmit}>
             <h2>Create Your Own Pizza!!!</h2>
-            <h4>Order Information:</h4>
             <div className='forminputs'>    
 
 
