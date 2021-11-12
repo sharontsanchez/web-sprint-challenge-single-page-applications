@@ -1,40 +1,119 @@
 import React, { useState, useEffect } from "react";
 import { Route, Link, Switch } from "react-router-dom";
-import Home from "./Home";
-import OrderForm from "./OrderForm";
 
+import Home from './Home';
+import Form from './Form';
+import Pizza from './Pizza';
 
-export const toppings = ["meat lovers", "veggie lovers", "cheese lovers", "pineapple"]
+import schema from './Schema';
+import * as yup from 'yup';
+import axios from "axios";
+
+// INITIAL STATES
+const initialFormValues = {
+    name: '',
+    size: '',
+    pepperoni: false,
+    sausage: false,
+    tomatoes: false,
+    peppers: false,
+    special:'',
+  }
+
+const initialFormErrors = {
+    name: '',
+    size: '',
+    special:'',
+}
+
+const initialPizzas = []
+const initialDisabled = true
+
 const App = () => {
-  // initial values 
-  const initialFormValues = {
-    name: "",
-    size: "",
-    specialInstructions: "",
-  };
-  const initialErrorValues = { ...initialFormValues};
-// include toppings in initial values 
-  toppings.forEach((topping) => (initialFormValues[topping] = false));
-  toppings.forEach((topping) => (initialErrorValues[topping] = ""));
-  // Set up States 
-  const [formValues, setFormValues] = useState(initialFormValues);
-  const [errorValues, setErrorValues] = useState(initialErrorValues);
+
+  // STATES
+  const [pizzas, setPizzas] = useState(initialPizzas)
+  const [formValues, setFormValues] = useState(initialFormValues)
+  const [formErrors, setFormErrors] = useState(initialFormErrors)
+  const [disabled,setDisabled] = useState(initialDisabled)
+
+  // HELPERS
+  const postNewPizza = newPizza => {
+    axios.post('https://reqres.in/api/orders', newPizza)
+    .then(res => {
+      setPizzas([res.data, ...pizzas])
+    }).catch(err => console.err(err))
+  }
+
+  // EVENT HANDLERS
+  const validate = (name, value) => {
+    yup.reach(schema, name)
+      .validate(value)
+      .then(() => setFormErrors({...formErrors, [name]: ''}))
+      .catch(err => setFormErrors({...formErrors, [name]: err.errors[0]}))
+  }
+
+  const inputChange = (name, value) => {
+    validate(name, value)
+    setFormValues({
+      ...formValues,
+      [name]: value
+    })
+  }
+
+  const formSubmit = () => {
+    const newPizza = {
+      name: formValues.name.trim(),
+      size: formValues.size,
+      toppings: ['pepperoni', 'sausage', 'tomatoes', 'peppers'].filter(topping => !!formValues[topping]),
+      special:formValues.special.trim(),
+    }
+    postNewPizza(newPizza)
+  }
+  // Side Effects 
+  useEffect(() => {
+    schema.isValid(formValues).then(valid => setDisabled(!valid))
+  }, [formValues])
+
   return (
     <>
-      <header>
-        <Link to="/">Home</Link>
-        <Link to="/pizza">Pizza</Link>
-      </header>
-      <h1>Lambda Eats</h1>
-      <Switch>
-        <Route path="/">
-          <Home/>
-         </Route>
-        <Route path="/pizza">
-          <OrderForm/>
-        </Route>
-      </Switch>
+    <header>
+        <h1 className="pagetitle">Lambda Eats</h1>
+
+        <nav className="navbar">
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/pizza" id="order-pizza">Order</Link>
+          </li>
+        </nav>
+    </header>
+    <Switch>
+          <Route path="/pizza/order">
+            {
+              pizzas.map(pizza => {
+                return(
+                  <Pizza id="pizza-order" key={pizza.id} details={pizza} />
+                )
+              })
+            }
+          </Route>
+          <Route path="/pizza">
+            <Form 
+              values={formValues}
+              change={inputChange}
+              submit={formSubmit}
+              errors={formErrors}
+              disabled={disabled}
+            />
+          </Route>
+          <Route exact path="/">
+            <Home/>
+          </Route>
+    </Switch>
     </>
   );
 };
+
 export default App;

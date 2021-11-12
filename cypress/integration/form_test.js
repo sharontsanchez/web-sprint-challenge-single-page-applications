@@ -1,18 +1,33 @@
-import toppings from '../../src/App';
 // write tests here 
-
-describe("Pizza Form Page", () =>{
-    // start with fresh state !!!
-    beforeEach(()=>{
-        cy.visit("http://localhost:3000");
-    });
-    // Helpers to centralize selectors 
-    const nameInput = () => cy.get("input[name=,'name']");
-    // sanity testing 
-    it('sanity check to make sure tests work', () =>{
-        expect(1+2).to.equal(3);
-        expect(2+2).not.to.equal(5);
-        expect({}).not.to.equal({});
-        expect({}).to.eql({});
+describe('Pizza App', () => {
+    beforeEach(() => {
+        cy.visit('http://localhost:3001/pizza')
     })
-})// end 
+
+    const nameInput = () => cy.get('input[name=name]')
+    const specialInput = () => cy.get('input[name=special]')
+    const submitBtn = () => cy.get('button[id="order-button"]')
+
+    it('Sanity check', () => {
+        expect(1 + 2).to.equal(3)
+    })
+
+    it('Add text', () => {
+        nameInput()
+            .should('have.value', '')
+            .type('Name')
+            .should('have.value', 'Name')
+    })
+
+    it('Multiple toppings', () => {
+        cy.get('[type="checkbox"]').check()
+    })
+
+    it('Submit form', () => {
+        nameInput().type('Name')
+        cy.get('select').select('small').should('have.value','small')
+        cy.get('[type="checkbox"]').check()
+        specialInput().type('No mushrooms')
+        submitBtn().click()
+    })
+})
