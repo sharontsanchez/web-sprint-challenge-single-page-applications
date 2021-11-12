@@ -35,18 +35,25 @@ Commit your code regularly and meaningfully. This helps both you (in case you ev
 Demonstrate your understanding of this week's concepts by answering the following free-form questions. Edit this document to include your answers after each question.
 
 1. In 1-2 sentences, explain what React's `useRouteMatch` hook is used for.
-1. How would you explain form validation to someone who has never programmed before?
-1. In 1-2 sentences, define end to end testing.
-
+React Router uses the power of hooks to help with routing and it has four different hooks: useHistory, useLocation, useParams and useRouteMatch. 
+The use of `useRouteMatch` hook are that it provides access to the match object (when it is called inside a component and returns an object with a url and a path property), It can access a match without rendering a route by passing it the location argument. 
+It can also use all the props on the Route like exact or sensitive as an object with useRouteMatch. A primary use case would be to construct nested paths. 
+Therefore, `useRouteMatch` makes it easy to build relative route paths and link locations creating more generalized and flexible code.
+2. How would you explain form validation to someone who has never programmed before?
+Form validation is a "technical process where a web-form checks if the information provided by a user is correct." 
+The form will either alert the user that they messed up and need to fix something to proceed or the form will be validated and the user will be able to continue with their registration process. 
+Validation makes sure that the provided text is in the right format( e.g. for email, user@example.com), and if the text fits the qualifications for a suitable entry (i.e. that email address isnt already registered or the password fits the criteria).
+3. In 1-2 sentences, define end to end testing.
+End-to-end testing is a methodology used in the software development lifecycle to test the functionality and performance of an application under product-like circumstances and data to replicate live settings. The goal is to simulate what a real user scenario looks like from start to finish. The completion of this testing is not only to validate the system under test, but to also ensure that its sub-systems work and behave as expected. 
 ## Instructions
 
 ### Task 1: Project Set Up
 
-- [ ] Create a forked copy of this project
-- [ ] Clone your OWN version of the repository (Not Lambda's by mistake!)
-- [ ] Implement the project on the main branch, committing changes regularly
-- [ ] Push commits: `git push origin main`
-- [ ] PUSH EVERYTHING TO THE MAIN BRANCH
+- [x] Create a forked copy of this project
+- [x] Clone your OWN version of the repository (Not Lambda's by mistake!)
+- [x] Implement the project on the main branch, committing changes regularly
+- [x] Push commits: `git push origin main`
+- [x] PUSH EVERYTHING TO THE MAIN BRANCH
 
 ### Task 2: Project Requirements
 
