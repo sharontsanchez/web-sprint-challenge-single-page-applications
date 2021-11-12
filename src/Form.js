@@ -1,11 +1,13 @@
 import React from 'react'
+import pizzaImg from './Assets/Pizza.jpg'
 
 export default function Form(props){
     const{
         values, 
         submit, 
         change, 
-        errors
+        errors,
+        disabled,
     } = props
 
     const onSubmit = evt => {
@@ -20,24 +22,17 @@ export default function Form(props){
     }
 
     return(
-        <form className='form-container' onSubmit={onSubmit}>
-            <div className='form-group submit'>
-                <h2>Add a Pizza</h2>
-                <div className='errors'>
-                    <div>{errors.name}</div>
-                    <div>{errors.size}</div>
-                    <div>{errors.toppings}</div>
-                    <div>{errors.special}</div>
-                </div>
-            </div>
-
-            <div className='form-group inputs'>
-                <h4>Order Information</h4>
+        <>
+        <img src={pizzaImg} alt="picture of a pizza"/>
+        <form id="pizza-form" className='form-container' onSubmit={onSubmit}>
+            <h2>Make A Pizza</h2>
+            <h4>Order Information</h4>
+            <div className='forminputs'>    
 
 
                 {/* TEXT INPUT */}
-                <h4>Header Name:</h4>
-                <label>Name:
+                <h4>Name:</h4>
+                <label>
                     <input
                         id="name-input"
                         value={values.name}
@@ -46,10 +41,11 @@ export default function Form(props){
                         type='text'
                     />
                 </label>
-
+                    <div className = 'errors'>{errors.name}</div>
 
                 {/* DROPDOWN */}
-                <label>Size:
+                <h4>Size:</h4>
+                <label>
                     <select
                         id="size-dropdown"
                         value={values.size}
@@ -62,17 +58,19 @@ export default function Form(props){
                         <option value='large'>Large</option>
                     </select>
                 </label>
-
+                    <div className='errors'>{errors.size}</div>
 
                 {/* CHECKBOXES */}
                 <h4>Toppings:</h4>
                 <label>Pepperoni
                     <input
+                        onChange={onChange}
                         name='pepperoni'
                         type='checkbox'
                         checked={values.pepperoni}
                       />
                 </label>
+                    
                 <label>Sausage
                     <input
                         onChange={onChange}
@@ -97,7 +95,7 @@ export default function Form(props){
                         checked={values.peppers}
                     />
                 </label>
-
+                    <div className='errors'>{errors.toppings}</div>
                 {/* TEXT INPUT */}
                 <h4>Special Instructions:</h4>
                 <label>
@@ -109,9 +107,11 @@ export default function Form(props){
                         type='text'
                     />
                 </label>
-
-                <button id='order-button'>Add to Order</button>
-            </div>
+                    <div className='errors'>{errors.special}</div>
+            </div> 
+                <h4>Click to Order </h4>
+                <button id='order-button' disabled={disabled}>Add to Order</button>
         </form>
+        </>
     )
 } 
